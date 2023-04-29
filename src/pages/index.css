@@ -1,3 +1,18 @@
+@keyframes btn-animation {
+  0% {
+    cursor: pointer;
+    box-shadow: 2px 2px 1px rgb(28, 8, 146);
+    background-color: rgb(109, 92, 202);
+    color: aliceblue;
+  }
+  100% {
+    cursor: pointer;
+    box-shadow: none;
+    background-color: rgb(213, 213, 235);
+    color: black;
+  }
+}
+
 .body {
   max-width: 1280px;
   margin: 50px auto 0;
@@ -23,6 +38,7 @@
 .keyboard__btn {
   background-color: rgb(213, 213, 235);
   border-radius: 4px;
+  transition: background-color .3s, color .3s;
 }
 
 .keyboard__btn:hover {
@@ -46,4 +62,8 @@
 
 .keyboard__btn_type_command {
   background-color: rgb(164, 164, 218);
+}
+
+.keyboard__animation {
+  animation: btn-animation .6s;
 }

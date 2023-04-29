@@ -67,23 +67,25 @@ export const dataKeyboard = [
   },
   {
     en: '-',
-    ru: '-',
+    ru: '_',
     class: ['keyboard__btn'],
     isSystem: false
   },
   {
     en: '=',
-    ru: '=',
+    ru: '+',
     class: ['keyboard__btn'],
     isSystem: false
   },
   {
+    keySystem: 'Backspace',
     en: 'Backspace',
     ru: 'Backspace',
     class: ['keyboard__btn', 'keyboard__btn_size_m-right', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'Tab',
     en: 'Tab',
     ru: 'Tab',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
@@ -163,17 +165,19 @@ export const dataKeyboard = [
   },
   {
     en: '|',
-    ru: '\\',
+    ru: '\/',
     class: ['keyboard__btn'],
     isSystem: false
   },
   {
+    keySystem: 'Delete',
     en: 'Del',
     ru: 'Del',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'CapsLock',
     en: 'Caps Lock',
     ru: 'Caps Lock',
     class: ['keyboard__btn', 'keyboard__btn_size_m-left', 'keyboard__btn_type_command'],
@@ -246,12 +250,14 @@ export const dataKeyboard = [
     isSystem: false
   },
   {
+    keySystem: 'Enter',
     en: 'Enter',
     ru: 'Enter',
     class: ['keyboard__btn', 'keyboard__btn_size_m-right', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'Shift',
     en: 'Shift',
     ru: 'Shift',
     class: ['keyboard__btn', 'keyboard__btn_size_m-left', 'keyboard__btn_type_command'],
@@ -324,30 +330,35 @@ export const dataKeyboard = [
     isSystem: false
   },
   {
+    keySystem: 'ArrowUp',
     en: '⮝',
     ru: '⮝',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'Shift',
     en: 'Shift',
     ru: 'Shift',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'Control',
     en: 'Ctrl',
     ru: 'Ctrl',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'Meta',
     en: 'Win',
     ru: 'Win',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: '',
     en: 'Alt',
     ru: 'Alt',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
@@ -360,30 +371,35 @@ export const dataKeyboard = [
     isSystem: false
   },
   {
+    keySystem: '',
     en: 'Alt',
     ru: 'Alt',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'Control',
     en: 'Ctrl',
     ru: 'Ctrl',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'ArrowLeft',
     en: '⮜',
     ru: '⮜',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'ArrowDown',
     en: '⮟',
     ru: '⮟',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true
   },
   {
+    keySystem: 'ArrowRight',
     en: '⮞',
     ru: '⮞',
     class: ['keyboard__btn', 'keyboard__btn_type_command'],

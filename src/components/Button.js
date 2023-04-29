@@ -3,6 +3,7 @@ export default class Button {
     this._keys = Object.keys(data);
     this._en = data.en;
     this._ru = data.ru;
+    this._keySystem = data.keySystem;
     this._lang = lang;
     // this._currentLang = 'ru';
     this._class = data.class;
@@ -36,5 +37,21 @@ export default class Button {
         textarea.textContent += this._btn.textContent;
       }
     })
+
+    let timer = null;
+    textarea.addEventListener('keydown', (evt) => {
+      if (evt.key === this._btn.textContent || this._keySystem === evt.key) {
+        this._btn.classList.add('keyboard__animation');
+        clearTimeout(timer);
+        timer = setTimeout(() => this._btn.classList.remove('keyboard__animation'), 300);
+      }
+    })
+
+    if (this._btn.textContent === 'Backspace') {
+      this._btn.addEventListener('click', () => {
+        console.log(1);
+        // textarea.textContent
+      })
+    }
   }
 }

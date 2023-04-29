@@ -43,7 +43,3 @@ const btnSection = new Section({
 }, keyboard, 'en');
 
 btnSection.renderItems(dataKeyboard);
-
-textarea.addEventListener('keydown', (evt) => {
-  console.log(evt.key);
-})
