@@ -19,6 +19,7 @@ wrapper.append(keyboard);
 const textarea = document.createElement('textarea');
 textarea.rows = '5';
 textarea.cols = '85';
+textarea.setAttribute('autofocus', 'true');
 text.append(textarea);
 
 // dataKeyboard.forEach((item) => {

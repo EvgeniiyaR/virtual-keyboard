@@ -8,6 +8,7 @@ export default class Button {
     // this._currentLang = 'ru';
     this._class = data.class;
     this._isSystem = data.isSystem;
+    this._case = 'low';
     this._btn = document.createElement('button');
   }
 
@@ -33,8 +34,9 @@ export default class Button {
 
   setListeners(textarea) {
     this._btn.addEventListener('click', () => {
+      textarea.focus();
       if (!this._isSystem) {
-        textarea.textContent += this._btn.textContent;
+        textarea.value += this._btn.textContent;
       }
     })
 
@@ -49,8 +51,49 @@ export default class Button {
 
     if (this._btn.textContent === 'Backspace') {
       this._btn.addEventListener('click', () => {
-        console.log(1);
-        // textarea.textContent
+        if (textarea.value.length >= 1) {
+          textarea.value = textarea.value.slice(0, textarea.value.length - 1);
+        }
+      })
+    }
+
+    if (this._btn.textContent === 'Tab') {
+      this._btn.addEventListener('click', () => {
+        textarea.value += '	';
+      })
+    }
+
+    if (this._btn.textContent === 'Enter') {
+      this._btn.addEventListener('click', () => {
+        textarea.value += '\n';
+      })
+    }
+
+    if (this._btn.textContent === 'Del') {
+      this._btn.addEventListener('click', () => {
+        textarea.value = textarea.value.slice(0, textarea.selectionStart);
+        console.log(textarea.selectionStart.length);
+        console.log(textarea.selectionEnd.length);
+        textarea.setRangeText("ПРИВЕТ", textarea.selectionStart, textarea.selectionEnd, "end");
+        // textarea.selectionEnd
+      })
+    }
+
+    if (this._btn.textContent === '⮜') {
+      this._btn.addEventListener('click', () => {
+        // console.log(textarea.value.length);
+        textarea.selectionEnd -= 1;
+        const a = textarea.value.length - textarea.selectionEnd;
+        // console.log(a);
+      })
+    }
+
+    if (this._btn.textContent === '⮞') {
+      this._btn.addEventListener('click', () => {
+        // console.log(textarea.value.length);
+        textarea.selectionStart += 1;
+        const a = textarea.value.length - textarea.selectionStart;
+        // console.log(a);
       })
     }
   }
