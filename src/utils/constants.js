@@ -260,7 +260,7 @@ const dataKeyboard = [
     keySystem: 'Shift',
     en: 'Shift',
     ru: 'Shift',
-    class: ['keyboard__btn', 'keyboard__btn_size_m-left', 'keyboard__btn_type_command'],
+    class: ['keyboard__btn', 'keyboard__btn_size_m-left', 'keyboard__btn_type_command', 'shift'],
     isSystem: true
   },
   {
@@ -340,7 +340,7 @@ const dataKeyboard = [
     keySystem: 'Shift',
     en: 'Shift',
     ru: 'Shift',
-    class: ['keyboard__btn', 'keyboard__btn_type_command'],
+    class: ['keyboard__btn', 'keyboard__btn_type_command', 'shift'],
     isSystem: true
   },
   {

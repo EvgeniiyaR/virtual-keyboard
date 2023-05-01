@@ -45,6 +45,7 @@ if (!localStorage.getItem('language')) {
 
 const localStartLang = localStorage.getItem('language');
 const localStartIsCaps = localStorage.getItem('isCaps');
+localStorage.setItem('isShift', 'false');
 
 textarea.value = localStorage.getItem('text');
 

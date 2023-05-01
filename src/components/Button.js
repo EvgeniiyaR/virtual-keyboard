@@ -5,10 +5,8 @@ export default class Button {
     this._ru = data.ru;
     this._keySystem = data.keySystem;
     this._lang = lang;
-    // this._currentLang = 'ru';
     this._class = data.class;
     this._isSystem = data.isSystem;
-    this._case = 'low';
     this._btn = document.createElement('button');
     this._isCaps = isCaps;
   }
@@ -36,24 +34,24 @@ export default class Button {
     return this._btn;
   }
 
-  // changeLang() {
-  //   if (this._currentLang === 'ru') {
-  //     this._currentLang === 'en'
-  //   }
-  //   else {
-  //     this._currentLang === 'ru'
-  //   }
-  // }
-
   setListeners(textarea) {
+    let timer = null;
+    let index;
+
     this._btn.addEventListener('click', () => {
       textarea.focus();
+      const char = this._btn.textContent;
       if (!this._isSystem) {
-        textarea.value += this._btn.textContent;
+        if (localStorage.getItem('isShift') === 'true') {
+          textarea.value += char.toUpperCase();
+          localStorage.setItem('isShift', 'false');
+          document.querySelector('.shift').classList.remove('keyboard__btn_hover');
+        } else {
+          textarea.value += char;
+        }
       }
     })
 
-    let timer = null;
     textarea.addEventListener('keydown', (evt) => {
       if (evt.key === this._btn.textContent || this._keySystem === evt.key) {
         this._btn.classList.add('keyboard__animation');
@@ -84,30 +82,24 @@ export default class Button {
 
     if (this._btn.textContent === 'Del') {
       this._btn.addEventListener('click', () => {
-        textarea.value = textarea.value.slice(0, textarea.selectionStart);
-        // console.log(textarea.value.length);
-        // console.log(textarea.selectionStart);
-        // console.log(textarea.selectionEnd);
-        // textarea.setRangeText('ПРИВЕТ', textarea.selectionStart, textarea.selectionEnd, 'end');
-        // textarea.selectionEnd
+        const text = textarea.value.split('');
+        index = textarea.selectionStart;
+        text.splice(index, 1);
+        textarea.value = text.join('');
+        textarea.selectionEnd = index;
+        textarea.selectionStart = index;
       })
     }
 
     if (this._btn.textContent === '⮜') {
       this._btn.addEventListener('click', () => {
-        // console.log(textarea.value.length);
         textarea.selectionEnd -= 1;
-        // const a = textarea.value.length - textarea.selectionEnd;
-        // console.log(a);
       })
     }
 
     if (this._btn.textContent === '⮞') {
       this._btn.addEventListener('click', () => {
-        // console.log(textarea.value.length);
         textarea.selectionStart += 1;
-        // const a = textarea.value.length - textarea.selectionStart;
-        // console.log(a);
       })
     }
 
@@ -116,12 +108,14 @@ export default class Button {
         if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
           this._btn.classList.add('keyboard__btn_hover');
           localStorage.setItem('keyShift', true);
+          localStorage.setItem('isShift', true);
         } else if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
           this._btn.classList.add('keyboard__btn_hover');
           localStorage.setItem('keyAlt', true);
         } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
           this._btn.classList.remove('keyboard__btn_hover');
           localStorage.setItem('keyShift', false);
+          localStorage.setItem('isShift', false);
         } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
           this._btn.classList.remove('keyboard__btn_hover');
           localStorage.setItem('keyAlt', false);
