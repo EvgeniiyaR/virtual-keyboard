@@ -1,4 +1,4 @@
-import {dataKeyboard} from '../utils/constants.js';
+import dataKeyboard from '../utils/constants.js';
 import Button from '../components/Button.js';
 import Section from '../components/Section.js';
 
@@ -20,7 +20,16 @@ const textarea = document.createElement('textarea');
 textarea.rows = '5';
 textarea.cols = '85';
 textarea.setAttribute('autofocus', 'true');
+textarea.setAttribute('placeholder', 'Shift + Alt - смена языка');
 text.append(textarea);
+
+localStorage.setItem('keyShift', false);
+localStorage.setItem('keyAlt', false);
+
+if (!localStorage.getItem('language')) {
+  localStorage.setItem('language', 'en');
+  localStorage.setItem('text', '');
+}
 
 // dataKeyboard.forEach((item) => {
 //   const btn = document.createElement('button');
@@ -34,6 +43,10 @@ text.append(textarea);
 //   })
 // })
 
+const localStartLang = localStorage.getItem('language');
+
+textarea.value = localStorage.getItem('text');
+
 const btnSection = new Section({
   renderer: (initialBtn, lang) => {
     const btn = new Button(initialBtn, lang);
@@ -41,6 +54,14 @@ const btnSection = new Section({
     btnSection.addItem(btnElement);
     btn.setListeners(textarea);
   }
-}, keyboard, 'en');
+}, keyboard, localStorage.getItem('language'));
 
 btnSection.renderItems(dataKeyboard);
+
+setInterval(() => {
+  localStorage.getItem('language');
+  localStorage.setItem('text', textarea.value);
+  if (localStartLang !== localStorage.getItem('language')) {
+    location.reload();
+  }
+}, 500)

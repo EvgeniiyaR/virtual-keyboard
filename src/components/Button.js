@@ -72,9 +72,10 @@ export default class Button {
     if (this._btn.textContent === 'Del') {
       this._btn.addEventListener('click', () => {
         textarea.value = textarea.value.slice(0, textarea.selectionStart);
-        console.log(textarea.selectionStart.length);
-        console.log(textarea.selectionEnd.length);
-        textarea.setRangeText("ПРИВЕТ", textarea.selectionStart, textarea.selectionEnd, "end");
+        // console.log(textarea.value.length);
+        // console.log(textarea.selectionStart);
+        // console.log(textarea.selectionEnd);
+        // textarea.setRangeText('ПРИВЕТ', textarea.selectionStart, textarea.selectionEnd, 'end');
         // textarea.selectionEnd
       })
     }
@@ -83,7 +84,7 @@ export default class Button {
       this._btn.addEventListener('click', () => {
         // console.log(textarea.value.length);
         textarea.selectionEnd -= 1;
-        const a = textarea.value.length - textarea.selectionEnd;
+        // const a = textarea.value.length - textarea.selectionEnd;
         // console.log(a);
       })
     }
@@ -92,8 +93,34 @@ export default class Button {
       this._btn.addEventListener('click', () => {
         // console.log(textarea.value.length);
         textarea.selectionStart += 1;
-        const a = textarea.value.length - textarea.selectionStart;
+        // const a = textarea.value.length - textarea.selectionStart;
         // console.log(a);
+      })
+    }
+
+    if (this._btn.textContent === 'Shift' || this._btn.textContent === 'Alt') {
+      this._btn.addEventListener('click', () => {
+        if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
+          this._btn.classList.add('keyboard__btn_hover');
+          localStorage.setItem('keyShift', true);
+        } else if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
+          this._btn.classList.add('keyboard__btn_hover');
+          localStorage.setItem('keyAlt', true);
+        } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
+          this._btn.classList.remove('keyboard__btn_hover');
+          localStorage.setItem('keyShift', false);
+        } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
+          this._btn.classList.remove('keyboard__btn_hover');
+          localStorage.setItem('keyAlt', false);
+        }
+
+        if (localStorage.getItem('keyShift') === 'true' && localStorage.getItem('keyAlt') === 'true') {
+          if (localStorage.getItem('language') === 'en') {
+            localStorage.setItem('language', 'ru');
+          } else {
+            localStorage.setItem('language', 'en');
+          }
+        }
       })
     }
   }

@@ -41,7 +41,8 @@
   transition: background-color .3s, color .3s;
 }
 
-.keyboard__btn:hover {
+.keyboard__btn:hover,
+.keyboard__btn_hover {
   cursor: pointer;
   box-shadow: 2px 2px 1px rgb(28, 8, 146);
   background-color: rgb(109, 92, 202);

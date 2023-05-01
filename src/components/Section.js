@@ -3,6 +3,7 @@ export default class Section {
     this._container = container;
     this._renderer = renderer;
     this._lang = lang;
+    this.listBtnLangChange = [];
   }
 
   renderItems(items) {

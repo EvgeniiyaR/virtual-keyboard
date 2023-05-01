@@ -1,4 +1,4 @@
-export const dataKeyboard = [
+const dataKeyboard = [
   {
     en: '`',
     ru: 'ё',
@@ -407,3 +407,4 @@ export const dataKeyboard = [
   }
 ]
 
+export default dataKeyboard;
