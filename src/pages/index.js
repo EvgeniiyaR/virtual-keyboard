@@ -44,12 +44,13 @@ if (!localStorage.getItem('language')) {
 // })
 
 const localStartLang = localStorage.getItem('language');
+const localStartIsCaps = localStorage.getItem('isCaps');
 
 textarea.value = localStorage.getItem('text');
 
 const btnSection = new Section({
   renderer: (initialBtn, lang) => {
-    const btn = new Button(initialBtn, lang);
+    const btn = new Button(initialBtn, lang, localStorage.getItem('isCaps'));
     const btnElement = btn.generateButton();
     btnSection.addItem(btnElement);
     btn.setListeners(textarea);
@@ -62,6 +63,9 @@ setInterval(() => {
   localStorage.getItem('language');
   localStorage.setItem('text', textarea.value);
   if (localStartLang !== localStorage.getItem('language')) {
+    location.reload();
+  }
+  if (localStartIsCaps !== localStorage.getItem('isCaps')) {
     location.reload();
   }
 }, 500)

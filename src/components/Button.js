@@ -1,5 +1,5 @@
 export default class Button {
-  constructor(data, lang) {
+  constructor(data, lang, isCaps) {
     this._keys = Object.keys(data);
     this._en = data.en;
     this._ru = data.ru;
@@ -10,13 +10,26 @@ export default class Button {
     this._isSystem = data.isSystem;
     this._case = 'low';
     this._btn = document.createElement('button');
+    this._isCaps = isCaps;
   }
 
   generateButton() {
     this._btn.className = this._class.join(' ');
     this._keys.forEach((key) => {
       if (this._lang === key) {
-        key === 'en' ? this._btn.textContent = this._en : this._btn.textContent = this._ru;
+        if (key === 'en') {
+          if (this._isCaps === 'true' && this._isSystem === false) {
+            this._btn.textContent = this._en.toUpperCase();
+          } else {
+            this._btn.textContent = this._en;
+          }
+        } else if (key === 'ru') {
+          if (this._isCaps === 'true' && this._isSystem === false) {
+            this._btn.textContent = this._ru.toUpperCase();
+          } else {
+            this._btn.textContent = this._ru
+          }
+        }
       }
     })
 
@@ -120,6 +133,21 @@ export default class Button {
           } else {
             localStorage.setItem('language', 'en');
           }
+        }
+      })
+    }
+
+    if (this._btn.textContent === 'Caps Lock') {
+      this._btn.addEventListener('click', () => {
+        if (!localStorage.getItem('isCaps')) {
+          this._btn.classList.add('keyboard__btn_hover');
+          localStorage.setItem('isCaps', 'true');
+        } else if (localStorage.getItem('isCaps') === 'true') {
+          this._btn.classList.remove('keyboard__btn_hover');
+          localStorage.setItem('isCaps', 'false');
+        } else if (localStorage.getItem('isCaps') === 'false') {
+          this._btn.classList.add('keyboard__btn_hover');
+          localStorage.setItem('isCaps', 'true');
         }
       })
     }
