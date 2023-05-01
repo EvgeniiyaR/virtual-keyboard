@@ -1,5 +1,5 @@
 export default class Button {
-  constructor(data, lang, isCaps) {
+  constructor(data, lang, isCaps, textarea) {
     this._keys = Object.keys(data);
     this._en = data.en;
     this._ru = data.ru;
@@ -9,6 +9,7 @@ export default class Button {
     this._isSystem = data.isSystem;
     this._btn = document.createElement('button');
     this._isCaps = isCaps;
+    this._textarea = textarea;
   }
 
   generateButton() {
@@ -25,7 +26,7 @@ export default class Button {
           if (this._isCaps === 'true' && this._isSystem === false) {
             this._btn.textContent = this._ru.toUpperCase();
           } else {
-            this._btn.textContent = this._ru
+            this._btn.textContent = this._ru;
           }
         }
       }
@@ -34,25 +35,25 @@ export default class Button {
     return this._btn;
   }
 
-  setListeners(textarea) {
+  setListeners() {
     let timer = null;
     let index;
 
     this._btn.addEventListener('click', () => {
-      textarea.focus();
+      this._textarea.focus();
       const char = this._btn.textContent;
       if (!this._isSystem) {
         if (localStorage.getItem('isShift') === 'true') {
-          textarea.value += char.toUpperCase();
+          this._textarea.value += char.toUpperCase();
           localStorage.setItem('isShift', 'false');
           document.querySelector('.shift').classList.remove('keyboard__btn_hover');
         } else {
-          textarea.value += char;
+          this._textarea.value += char;
         }
       }
     })
 
-    textarea.addEventListener('keydown', (evt) => {
+    this._textarea.addEventListener('keydown', (evt) => {
       if (evt.key === this._btn.textContent || this._keySystem === evt.key) {
         this._btn.classList.add('keyboard__animation');
         clearTimeout(timer);
@@ -62,44 +63,56 @@ export default class Button {
 
     if (this._btn.textContent === 'Backspace') {
       this._btn.addEventListener('click', () => {
-        if (textarea.value.length >= 1) {
-          textarea.value = textarea.value.slice(0, textarea.value.length - 1);
+        if (this._textarea.value.length >= 1) {
+          this._textarea.value = this._textarea.value.slice(0, this._textarea.value.length - 1);
         }
       })
     }
 
     if (this._btn.textContent === 'Tab') {
       this._btn.addEventListener('click', () => {
-        textarea.value += '	';
+        this._textarea.value += '	';
       })
     }
 
     if (this._btn.textContent === 'Enter') {
       this._btn.addEventListener('click', () => {
-        textarea.value += '\n';
+        this._textarea.value += '\n';
       })
     }
 
     if (this._btn.textContent === 'Del') {
       this._btn.addEventListener('click', () => {
-        const text = textarea.value.split('');
-        index = textarea.selectionStart;
+        const text = this._textarea.value.split('');
+        index = this._textarea.selectionStart;
         text.splice(index, 1);
-        textarea.value = text.join('');
-        textarea.selectionEnd = index;
-        textarea.selectionStart = index;
+        this._textarea.value = text.join('');
+        this._textarea.selectionEnd = index;
+        this._textarea.selectionStart = index;
       })
     }
 
     if (this._btn.textContent === '⮜') {
       this._btn.addEventListener('click', () => {
-        textarea.selectionEnd -= 1;
+        this._textarea.selectionEnd -= 1;
       })
     }
 
     if (this._btn.textContent === '⮞') {
       this._btn.addEventListener('click', () => {
-        textarea.selectionStart += 1;
+        this._textarea.selectionStart += 1;
+      })
+    }
+
+    if (this._btn.textContent === '⮝') {
+      this._btn.addEventListener('click', () => {
+        this._textarea.selectionEnd -= 1;
+      })
+    }
+
+    if (this._btn.textContent === '⮟') {
+      this._btn.addEventListener('click', () => {
+        this._textarea.selectionStart += 1;
       })
     }
 
@@ -135,13 +148,13 @@ export default class Button {
       this._btn.addEventListener('click', () => {
         if (!localStorage.getItem('isCaps')) {
           this._btn.classList.add('keyboard__btn_hover');
-          localStorage.setItem('isCaps', 'true');
+          localStorage.setItem('isCaps', true);
         } else if (localStorage.getItem('isCaps') === 'true') {
           this._btn.classList.remove('keyboard__btn_hover');
-          localStorage.setItem('isCaps', 'false');
+          localStorage.setItem('isCaps', false);
         } else if (localStorage.getItem('isCaps') === 'false') {
           this._btn.classList.add('keyboard__btn_hover');
-          localStorage.setItem('isCaps', 'true');
+          localStorage.setItem('isCaps', true);
         }
       })
     }
