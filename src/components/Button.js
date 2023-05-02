@@ -35,6 +35,32 @@ export default class Button {
     return this._btn;
   }
 
+  _changeLang() {
+    if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
+      this._btn.classList.add('keyboard__btn_hover');
+      localStorage.setItem('keyShift', true);
+      localStorage.setItem('isShift', true);
+    } else if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
+      this._btn.classList.add('keyboard__btn_hover');
+      localStorage.setItem('keyAlt', true);
+    } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
+      this._btn.classList.remove('keyboard__btn_hover');
+      localStorage.setItem('keyShift', false);
+      localStorage.setItem('isShift', false);
+    } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
+      this._btn.classList.remove('keyboard__btn_hover');
+      localStorage.setItem('keyAlt', false);
+    }
+
+    if (localStorage.getItem('keyShift') === 'true' && localStorage.getItem('keyAlt') === 'true') {
+      if (localStorage.getItem('language') === 'en') {
+        localStorage.setItem('language', 'ru');
+      } else {
+        localStorage.setItem('language', 'en');
+      }
+    }
+  }
+
   setListeners() {
     let timer = null;
     let index;
@@ -59,6 +85,7 @@ export default class Button {
         clearTimeout(timer);
         timer = setTimeout(() => this._btn.classList.remove('keyboard__animation'), 300);
       }
+      if (evt.key === 'Shift' || evt.key === 'Alt') this._changeLang();
     })
 
     if (this._btn.textContent === 'Backspace') {
@@ -117,31 +144,7 @@ export default class Button {
     }
 
     if (this._btn.textContent === 'Shift' || this._btn.textContent === 'Alt') {
-      this._btn.addEventListener('click', () => {
-        if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
-          this._btn.classList.add('keyboard__btn_hover');
-          localStorage.setItem('keyShift', true);
-          localStorage.setItem('isShift', true);
-        } else if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
-          this._btn.classList.add('keyboard__btn_hover');
-          localStorage.setItem('keyAlt', true);
-        } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
-          this._btn.classList.remove('keyboard__btn_hover');
-          localStorage.setItem('keyShift', false);
-          localStorage.setItem('isShift', false);
-        } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
-          this._btn.classList.remove('keyboard__btn_hover');
-          localStorage.setItem('keyAlt', false);
-        }
-
-        if (localStorage.getItem('keyShift') === 'true' && localStorage.getItem('keyAlt') === 'true') {
-          if (localStorage.getItem('language') === 'en') {
-            localStorage.setItem('language', 'ru');
-          } else {
-            localStorage.setItem('language', 'en');
-          }
-        }
-      })
+      this._btn.addEventListener('click', () => this._changeLang());
     }
 
     if (this._btn.textContent === 'Caps Lock') {
