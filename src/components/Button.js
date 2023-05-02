@@ -1,58 +1,56 @@
 export default class Button {
   constructor(data, lang, isCaps, textarea) {
-    this._keys = Object.keys(data);
-    this._en = data.en;
-    this._ru = data.ru;
-    this._keySystem = data.keySystem;
-    this._lang = lang;
-    this._class = data.class;
-    this._isSystem = data.isSystem;
-    this._btn = document.createElement('button');
-    this._isCaps = isCaps;
-    this._textarea = textarea;
+    this.keys = Object.keys(data);
+    this.en = data.en;
+    this.ru = data.ru;
+    this.keySystem = data.keySystem;
+    this.lang = lang;
+    this.class = data.class;
+    this.isSystem = data.isSystem;
+    this.btn = document.createElement('button');
+    this.isCaps = isCaps;
+    this.textarea = textarea;
   }
 
   generateButton() {
-    this._btn.className = this._class.join(' ');
-    this._keys.forEach((key) => {
-      if (this._lang === key) {
+    this.btn.className = this.class.join(' ');
+    this.keys.forEach((key) => {
+      if (this.lang === key) {
         if (key === 'en') {
-          if (this._isCaps === 'true' && this._isSystem === false) {
-            this._btn.textContent = this._en.toUpperCase();
+          if (this.isCaps === 'true' && this.isSystem === false) {
+            this.btn.textContent = this.en.toUpperCase();
           } else {
-            this._btn.textContent = this._en;
+            this.btn.textContent = this.en;
           }
         } else if (key === 'ru') {
-          if (this._isCaps === 'true' && this._isSystem === false) {
-            this._btn.textContent = this._ru.toUpperCase();
+          if (this.isCaps === 'true' && this.isSystem === false) {
+            this.btn.textContent = this.ru.toUpperCase();
           } else {
-            this._btn.textContent = this._ru;
+            this.btn.textContent = this.ru;
           }
         }
       }
-    })
+    });
 
-    return this._btn;
+    return this.btn;
   }
 
-  _changeLang() {
-    if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
-      this._btn.classList.add('keyboard__btn_hover');
-      localStorage.setItem('keyShift', true);
-      localStorage.setItem('isShift', true);
-    } else if (!this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
-      this._btn.classList.add('keyboard__btn_hover');
+  changeLang() {
+    if (!this.btn.classList.contains('keyboard__btn_hover') && this.btn.textContent === 'Ctrl') {
+      this.btn.classList.add('keyboard__btn_hover');
+      localStorage.setItem('keyCtrl', true);
+    } else if (!this.btn.classList.contains('keyboard__btn_hover') && this.btn.textContent === 'Alt') {
+      this.btn.classList.add('keyboard__btn_hover');
       localStorage.setItem('keyAlt', true);
-    } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Shift') {
-      this._btn.classList.remove('keyboard__btn_hover');
-      localStorage.setItem('keyShift', false);
-      localStorage.setItem('isShift', false);
-    } else if (this._btn.classList.contains('keyboard__btn_hover') && this._btn.textContent === 'Alt') {
-      this._btn.classList.remove('keyboard__btn_hover');
+    } else if (this.btn.classList.contains('keyboard__btn_hover') && this.btn.textContent === 'Ctrl') {
+      this.btn.classList.remove('keyboard__btn_hover');
+      localStorage.setItem('keyCtrl', false);
+    } else if (this.btn.classList.contains('keyboard__btn_hover') && this.btn.textContent === 'Alt') {
+      this.btn.classList.remove('keyboard__btn_hover');
       localStorage.setItem('keyAlt', false);
     }
 
-    if (localStorage.getItem('keyShift') === 'true' && localStorage.getItem('keyAlt') === 'true') {
+    if (localStorage.getItem('keyCtrl') === 'true' && localStorage.getItem('keyAlt') === 'true') {
       if (localStorage.getItem('language') === 'en') {
         localStorage.setItem('language', 'ru');
       } else {
@@ -61,105 +59,148 @@ export default class Button {
     }
   }
 
+  deleteChar(isDel) {
+    let index;
+    const text = this.textarea.value.split('');
+    if (isDel) {
+      index = this.textarea.selectionStart;
+    } else {
+      index = this.textarea.selectionStart - 1;
+    }
+    text.splice(index, 1);
+    this.textarea.value = text.join('');
+    this.textarea.selectionEnd = index;
+    this.textarea.selectionStart = index;
+  }
+
+  setTab() {
+    this.textarea.value += '    ';
+  }
+
+  setEnter() {
+    this.textarea.value += '\n';
+  }
+
+  setMoveRight() {
+    this.textarea.selectionStart += 1;
+  }
+
+  setMoveLeft() {
+    this.textarea.selectionEnd -= 1;
+  }
+
+  setCaps() {
+    if (!localStorage.getItem('isCaps')) {
+      this.btn.classList.add('keyboard__btn_hover');
+      localStorage.setItem('isCaps', true);
+    } else if (localStorage.getItem('isCaps') === 'true') {
+      this.btn.classList.remove('keyboard__btn_hover');
+      localStorage.setItem('isCaps', false);
+    } else if (localStorage.getItem('isCaps') === 'false') {
+      this.btn.classList.add('keyboard__btn_hover');
+      localStorage.setItem('isCaps', true);
+    }
+  }
+
+  setLetterAndShift() {
+    this.textarea.focus();
+    const char = this.btn.textContent;
+    if (!this.isSystem) {
+      if (localStorage.getItem('isShift') === 'true') {
+        this.textarea.value += char.toUpperCase();
+        localStorage.setItem('isShift', 'false');
+        document.querySelector('.shift').classList.remove('keyboard__btn_hover');
+      } else {
+        this.textarea.value += char;
+      }
+    }
+  }
+
   setListeners() {
     let timer = null;
-    let index;
 
-    this._btn.addEventListener('click', () => {
-      this._textarea.focus();
-      const char = this._btn.textContent;
-      if (!this._isSystem) {
+    this.btn.addEventListener('click', () => this.setLetterAndShift());
+
+    this.textarea.addEventListener('keydown', (evt) => {
+      evt.preventDefault();
+      if (evt.key === this.btn.textContent || this.keySystem === evt.key) {
+        this.btn.classList.add('keyboard__animation');
+        clearTimeout(timer);
+        timer = setTimeout(() => this.btn.classList.remove('keyboard__animation'), 300);
+      }
+      if (evt.ctrlKey && evt.altKey) this.changeLang();
+      if (this.keySystem === evt.key) {
+        if (evt.key === 'Backspace') this.deleteChar(false);
+        if (evt.key === 'Tab') this.setTab();
+        if (evt.key === 'Enter') this.setEnter();
+        if (evt.key === 'Delete') this.deleteChar(true);
+        if (evt.key === 'ArrowUp' || evt.key === 'ArrowLeft') this.setMoveLeft();
+        if (evt.key === 'ArrowDown' || evt.key === 'ArrowRight') this.setMoveRight();
+        if (evt.key === 'CapsLock') this.setCaps();
+        if (evt.key === 'Shift') {
+          localStorage.setItem('isShift', 'true');
+          document.querySelector('.shift').classList.add('keyboard__btn_hover');
+        }
+      }
+      if (this.keySystem === evt.key && evt.key !== 'Shift') {
+        localStorage.setItem('isShift', 'false');
+        document.querySelector('.shift').classList.remove('keyboard__btn_hover');
+      }
+      if (this.keySystem !== evt.key) {
+        if (!this.isSystem && evt.key === this.btn.textContent) {
+          if (localStorage.getItem('isShift') === 'true') {
+            this.textarea.value += this.btn.textContent.toUpperCase();
+            localStorage.setItem('isShift', 'false');
+            document.querySelector('.shift').classList.remove('keyboard__btn_hover');
+          } else {
+            this.textarea.value += this.btn.textContent;
+          }
+        }
+      }
+    });
+
+    if (this.btn.textContent === 'Backspace') {
+      this.btn.addEventListener('click', () => this.deleteChar(false));
+    }
+
+    if (this.btn.textContent === 'Tab') {
+      this.btn.addEventListener('click', () => this.setTab());
+    }
+
+    if (this.btn.textContent === 'Enter') {
+      this.btn.addEventListener('click', () => this.setEnter());
+    }
+
+    if (this.btn.textContent === 'Del') {
+      this.btn.addEventListener('click', () => this.deleteChar(true));
+    }
+
+    if (this.btn.textContent === '⮜' || this.btn.textContent === '⮝') {
+      this.btn.addEventListener('click', () => this.setMoveLeft());
+    }
+
+    if (this.btn.textContent === '⮞' || this.btn.textContent === '⮟') {
+      this.btn.addEventListener('click', () => this.setMoveRight());
+    }
+
+    if (this.btn.textContent === 'Ctrl' || this.btn.textContent === 'Alt') {
+      this.btn.addEventListener('click', () => this.changeLang());
+    }
+
+    if (this.btn.textContent === 'Caps Lock') {
+      this.btn.addEventListener('click', () => this.setCaps());
+    }
+
+    if (this.btn.textContent === 'Shift') {
+      this.btn.addEventListener('click', () => {
         if (localStorage.getItem('isShift') === 'true') {
-          this._textarea.value += char.toUpperCase();
           localStorage.setItem('isShift', 'false');
           document.querySelector('.shift').classList.remove('keyboard__btn_hover');
-        } else {
-          this._textarea.value += char;
+        } else if (localStorage.getItem('isShift') === 'false') {
+          localStorage.setItem('isShift', 'true');
+          document.querySelector('.shift').classList.add('keyboard__btn_hover');
         }
-      }
-    })
-
-    this._textarea.addEventListener('keydown', (evt) => {
-      if (evt.key === this._btn.textContent || this._keySystem === evt.key) {
-        this._btn.classList.add('keyboard__animation');
-        clearTimeout(timer);
-        timer = setTimeout(() => this._btn.classList.remove('keyboard__animation'), 300);
-      }
-      if (evt.key === 'Shift' || evt.key === 'Alt') this._changeLang();
-    })
-
-    if (this._btn.textContent === 'Backspace') {
-      this._btn.addEventListener('click', () => {
-        if (this._textarea.value.length >= 1) {
-          this._textarea.value = this._textarea.value.slice(0, this._textarea.value.length - 1);
-        }
-      })
-    }
-
-    if (this._btn.textContent === 'Tab') {
-      this._btn.addEventListener('click', () => {
-        this._textarea.value += '	';
-      })
-    }
-
-    if (this._btn.textContent === 'Enter') {
-      this._btn.addEventListener('click', () => {
-        this._textarea.value += '\n';
-      })
-    }
-
-    if (this._btn.textContent === 'Del') {
-      this._btn.addEventListener('click', () => {
-        const text = this._textarea.value.split('');
-        index = this._textarea.selectionStart;
-        text.splice(index, 1);
-        this._textarea.value = text.join('');
-        this._textarea.selectionEnd = index;
-        this._textarea.selectionStart = index;
-      })
-    }
-
-    if (this._btn.textContent === '⮜') {
-      this._btn.addEventListener('click', () => {
-        this._textarea.selectionEnd -= 1;
-      })
-    }
-
-    if (this._btn.textContent === '⮞') {
-      this._btn.addEventListener('click', () => {
-        this._textarea.selectionStart += 1;
-      })
-    }
-
-    if (this._btn.textContent === '⮝') {
-      this._btn.addEventListener('click', () => {
-        this._textarea.selectionEnd -= 1;
-      })
-    }
-
-    if (this._btn.textContent === '⮟') {
-      this._btn.addEventListener('click', () => {
-        this._textarea.selectionStart += 1;
-      })
-    }
-
-    if (this._btn.textContent === 'Shift' || this._btn.textContent === 'Alt') {
-      this._btn.addEventListener('click', () => this._changeLang());
-    }
-
-    if (this._btn.textContent === 'Caps Lock') {
-      this._btn.addEventListener('click', () => {
-        if (!localStorage.getItem('isCaps')) {
-          this._btn.classList.add('keyboard__btn_hover');
-          localStorage.setItem('isCaps', true);
-        } else if (localStorage.getItem('isCaps') === 'true') {
-          this._btn.classList.remove('keyboard__btn_hover');
-          localStorage.setItem('isCaps', false);
-        } else if (localStorage.getItem('isCaps') === 'false') {
-          this._btn.classList.add('keyboard__btn_hover');
-          localStorage.setItem('isCaps', true);
-        }
-      })
+      });
     }
   }
 }

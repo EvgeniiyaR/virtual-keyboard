@@ -1,17 +1,17 @@
 export default class Section {
   constructor({ renderer }, container, lang) {
-    this._container = container;
-    this._renderer = renderer;
-    this._lang = lang;
+    this.container = container;
+    this.renderer = renderer;
+    this.lang = lang;
     this.listBtnLangChange = [];
   }
 
   renderItems(items) {
-    this._items = items;
-    this._items.forEach((initialBtn) => this._renderer(initialBtn, this._lang));
+    this.items = items;
+    this.items.forEach((initialBtn) => this.renderer(initialBtn, this.lang));
   }
 
   addItem(btn) {
-    this._container.append(btn);
+    this.container.append(btn);
   }
 }

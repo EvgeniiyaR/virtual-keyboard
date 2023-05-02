@@ -20,11 +20,12 @@ const textarea = document.createElement('textarea');
 textarea.rows = '5';
 textarea.cols = '85';
 textarea.setAttribute('autofocus', 'true');
-textarea.setAttribute('placeholder', 'Shift + Alt - смена языка, Windows 10');
+textarea.setAttribute('placeholder', 'Ctrl + Alt - смена языка, Windows 10');
 text.append(textarea);
 
-localStorage.setItem('keyShift', false);
+localStorage.setItem('keyCtrl', false);
 localStorage.setItem('keyAlt', false);
+localStorage.setItem('isShift', false);
 
 if (!localStorage.getItem('language')) {
   localStorage.setItem('language', 'en');
@@ -33,7 +34,6 @@ if (!localStorage.getItem('language')) {
 
 const localStartLang = localStorage.getItem('language');
 const localStartIsCaps = localStorage.getItem('isCaps');
-localStorage.setItem('isShift', 'false');
 
 textarea.value = localStorage.getItem('text');
 
@@ -57,4 +57,4 @@ setInterval(() => {
   if (localStartIsCaps !== localStorage.getItem('isCaps')) {
     window.location.reload();
   }
-}, 500)
+}, 500);

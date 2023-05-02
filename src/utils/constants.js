@@ -405,6 +405,6 @@ const dataKeyboard = [
     class: ['keyboard__btn', 'keyboard__btn_type_command'],
     isSystem: true,
   },
-]
+];
 
 export default dataKeyboard;
