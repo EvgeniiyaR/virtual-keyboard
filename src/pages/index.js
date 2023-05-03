@@ -51,6 +51,7 @@ btnSection.renderItems(dataKeyboard);
 setInterval(() => {
   localStorage.getItem('language');
   localStorage.setItem('text', textarea.value);
+
   if (localStartLang !== localStorage.getItem('language')) {
     window.location.reload();
   }
