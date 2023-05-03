@@ -26,9 +26,6 @@ text.append(textarea);
 localStorage.setItem('keyCtrl', false);
 localStorage.setItem('keyAlt', false);
 localStorage.setItem('isShift', false);
-// const index = localStorage.getItem('selectionStart');
-// textarea.selectionEnd = index;
-// textarea.selectionStart = index;
 
 if (!localStorage.getItem('language')) {
   localStorage.setItem('language', 'en');
