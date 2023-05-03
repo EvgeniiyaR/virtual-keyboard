@@ -26,6 +26,9 @@ text.append(textarea);
 localStorage.setItem('keyCtrl', false);
 localStorage.setItem('keyAlt', false);
 localStorage.setItem('isShift', false);
+// const index = localStorage.getItem('selectionStart');
+// textarea.selectionEnd = index;
+// textarea.selectionStart = index;
 
 if (!localStorage.getItem('language')) {
   localStorage.setItem('language', 'en');
@@ -48,9 +51,13 @@ const btnSection = new Section({
 
 btnSection.renderItems(dataKeyboard);
 
+textarea.selectionStart = localStorage.getItem('selectionStart');
+textarea.selectionEnd = localStorage.getItem('selectionStart');
+
 setInterval(() => {
   localStorage.getItem('language');
   localStorage.setItem('text', textarea.value);
+  localStorage.setItem('selectionStart', textarea.selectionStart);
 
   if (localStartLang !== localStorage.getItem('language')) {
     window.location.reload();
@@ -58,4 +65,4 @@ setInterval(() => {
   if (localStartIsCaps !== localStorage.getItem('isCaps')) {
     window.location.reload();
   }
-}, 500);
+}, 1);

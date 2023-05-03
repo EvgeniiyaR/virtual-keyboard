@@ -92,7 +92,6 @@ export default class Button {
   }
 
   setCaps() {
-    const index = this.textarea.selectionStart;
     if (!localStorage.getItem('isCaps')) {
       this.btn.classList.add('keyboard__btn_hover');
       localStorage.setItem('isCaps', true);
@@ -103,8 +102,6 @@ export default class Button {
       this.btn.classList.add('keyboard__btn_hover');
       localStorage.setItem('isCaps', true);
     }
-    this.textarea.selectionEnd = index;
-    this.textarea.selectionStart = index;
   }
 
   setLetterAndShift() {
