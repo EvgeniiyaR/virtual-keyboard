@@ -65,4 +65,4 @@ setInterval(() => {
   if (localStartIsCaps !== localStorage.getItem('isCaps')) {
     window.location.reload();
   }
-}, 1);
+}, 500);
