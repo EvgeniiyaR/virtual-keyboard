@@ -16,16 +16,16 @@ keyboard.className = 'keyboard';
 keyboard.ariaLabel = 'virtual keyboard';
 wrapper.append(keyboard);
 
+const title = document.createElement('h1');
+title.textContent = 'Ctrl + Alt - смена языка, Windows';
+wrapper.append(title);
+
 const textarea = document.createElement('textarea');
 textarea.rows = '5';
 textarea.cols = '85';
 textarea.setAttribute('autofocus', 'true');
 textarea.setAttribute('placeholder', 'Ctrl + Alt - смена языка, Windows');
 text.append(textarea);
-
-const title = document.createElement('h1');
-title.textContent = 'Ctrl + Alt - смена языка, Windows';
-wrapper.append(title);
 
 localStorage.setItem('keyCtrl', false);
 localStorage.setItem('keyAlt', false);

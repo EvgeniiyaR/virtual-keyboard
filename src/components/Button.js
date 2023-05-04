@@ -133,7 +133,7 @@ export default class Button {
 
     this.textarea.addEventListener('keydown', (evt) => {
       evt.preventDefault();
-      if (evt.key === this.btn.textContent || this.keySystem === evt.key) {
+      if (evt.code === this.code || this.keySystem === evt.key) {
         this.btn.classList.add('keyboard__animation');
         clearTimeout(timer);
         timer = setTimeout(() => this.btn.classList.remove('keyboard__animation'), 300);
